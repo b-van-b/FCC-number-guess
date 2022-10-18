@@ -2,7 +2,7 @@
 
 ## setup
 # generate a random number, 1-1000
-RND=$(( $RANDOM % 1000 + 1 ))
+SECRET_NUMBER=$(( $RANDOM % 1000 + 1 ))
 # record old IFS for read purposes
 OLD_IFS=$IFS
 # PSQL CLI prefix
@@ -12,6 +12,7 @@ MAIN(){
   ## main logic
 
   GET_USER
+  PLAY_GAME
 
 }
 
@@ -49,7 +50,37 @@ GET_USER(){
   fi
 }
 
+PLAY_GAME(){
+  GUESS=0
+  GUESS_COUNT=1
 
+  echo "Guess the secret number between 1 and 1000:"
+  read GUESS
+  while (( $GUESS != $SECRET_NUMBER ))
+  do
+    # if not an integer
+    if [[ ! $GUESS =~ ^[0-9]+$ ]]
+    then
+      # ask for an integer
+      echo "That is not an integer, guess again:"
+    # if too high
+    elif (( $GUESS > $SECRET_NUMBER ))
+    then
+      # say so
+      echo "It's lower than that, guess again:"
+    # if too low
+    else
+      # say so
+      echo "It's higher than that, guess again:"
+    fi
+    # get new guess
+    read GUESS
+    # increment guess counter
+    (( GUESS_COUNT++ ))
+  done
+
+  echo "You guessed it in $GUESS_COUNT tries. The secret number was $SECRET_NUMBER. Nice job!"
+}
 
 ## start the script
 MAIN
