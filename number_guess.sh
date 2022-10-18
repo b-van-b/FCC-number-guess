@@ -25,7 +25,7 @@ GET_USER_DATA(){
 
   # retrieve user ID
   ID="$($PSQL "SELECT user_id FROM users WHERE name='$NAME'")"
-  echo "Found user ID: $ID"
+
   # if no ID
   if [[ -z $ID ]]
   then
@@ -33,10 +33,10 @@ GET_USER_DATA(){
     echo "Welcome, $NAME! It looks like this is your first time here."
     # insert new user
     RESULT="$($PSQL "INSERT INTO users(name) VALUES('$NAME')")"
-    echo $RESULT
+
     # get new user ID
     ID="$($PSQL "SELECT user_id FROM users WHERE name='$NAME'")"
-    echo "New ID: $ID"
+
     # set up default user stats
     GAMES_PLAYED=0
     BEST_GAME=""
