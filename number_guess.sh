@@ -103,7 +103,6 @@ RECORD_STATS() {
 
   # update user data in the database
   RESULT="$($PSQL "UPDATE users SET games_played=$GAMES_PLAYED, best_game=$BEST_GAME WHERE user_id=$ID")"
-  echo $RESULT
 }
 
 ## start the script
