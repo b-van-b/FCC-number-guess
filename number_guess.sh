@@ -13,6 +13,7 @@ MAIN(){
 
   GET_USER_DATA
   PLAY_GAME
+  RECORD_STATS
 
 }
 
@@ -80,6 +81,29 @@ PLAY_GAME(){
   done
 
   echo "You guessed it in $GUESS_COUNT tries. The secret number was $SECRET_NUMBER. Nice job!"
+}
+
+RECORD_STATS() {
+  ## update and save user stats for future reference
+  
+  # increment games_played
+  (( GAMES_PLAYED++ ))
+
+  # if no previous best
+  if [[ -z $BEST_GAME ]]
+  then
+    # this game is the best game
+    BEST_GAME=$GUESS_COUNT
+  # else if this game is a new record
+  elif (( $GUESS_COUNT < $BEST_GAME ))
+  then
+    # update the best_game variable
+    BEST_GAME=$GUESS_COUNT
+  fi
+
+  # update user data in the database
+  RESULT="$($PSQL "UPDATE users SET games_played=$GAMES_PLAYED, best_game=$BEST_GAME WHERE user_id=$ID")"
+  echo $RESULT
 }
 
 ## start the script
