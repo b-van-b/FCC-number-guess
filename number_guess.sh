@@ -11,12 +11,12 @@ PSQL="psql --username=freecodecamp --dbname=number_guess -t --no-align -c"
 MAIN(){
   ## main logic
 
-  GET_USER
+  GET_USER_DATA
   PLAY_GAME
 
 }
 
-GET_USER(){
+GET_USER_DATA(){
   ## get user name & ID
   # prompt for name
   echo "Enter your username:"
